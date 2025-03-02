@@ -4,13 +4,13 @@
 
 @layer base {
   body {
-    @apply bg-secondary-50 text-secondary-900 min-h-screen font-sans;
+    @apply bg-secondary-50 text-secondary-900 min-h-screen font-sans dark:bg-secondary-900 dark:text-white;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold text-secondary-900 leading-tight;
+    @apply font-semibold text-secondary-900 dark:text-white leading-tight;
   }
   a {
-    @apply text-primary-600 hover:text-primary-700 transition-colors;
+    @apply text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors;
   }
 }
 
@@ -19,28 +19,28 @@
     @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 inline-flex items-center justify-center;
   }
   .btn-primary {
-    @apply bg-primary-600 text-white hover:bg-primary-700 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    @apply bg-primary-600 text-white hover:bg-primary-700 dark:bg-primary-700 dark:hover:bg-primary-800 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-secondary-900;
   }
   .btn-secondary {
-    @apply bg-secondary-200 text-secondary-800 hover:bg-secondary-300 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2;
+    @apply bg-secondary-200 text-secondary-800 hover:bg-secondary-300 dark:bg-secondary-700 dark:text-secondary-200 dark:hover:bg-secondary-600 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2 dark:focus:ring-offset-secondary-900;
   }
   .btn-danger {
-    @apply bg-red-600 text-white hover:bg-red-700 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
+    @apply bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-secondary-900;
   }
   .input {
-    @apply w-full px-4 py-2 border border-secondary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+    @apply w-full px-4 py-2 border border-secondary-300 dark:border-secondary-600 dark:bg-secondary-800 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
   }
   .card {
-    @apply bg-white rounded-xl shadow-card p-6 hover:shadow-card-hover transition-shadow duration-300;
+    @apply bg-white dark:bg-secondary-800 rounded-xl shadow-card p-6 hover:shadow-card-hover transition-shadow duration-300;
   }
   .badge {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
   }
   .badge-primary {
-    @apply bg-primary-100 text-primary-800;
+    @apply bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200;
   }
   .badge-secondary {
-    @apply bg-secondary-100 text-secondary-800;
+    @apply bg-secondary-100 text-secondary-800 dark:bg-secondary-700 dark:text-secondary-200;
   }
   .container {
     @apply px-4 sm:px-6 lg:px-8 mx-auto;

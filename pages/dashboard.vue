@@ -31,16 +31,16 @@
     <div v-else>
       <div class="mb-8">
         <h1 class="text-3xl font-bold mb-2">Tu Dashboard</h1>
-        <p class="text-gray-600">Bienvenido, {{ user.displayName || user.email }}</p>
+        <p class="text-gray-600 dark:text-gray-300">Bienvenido, {{ user.displayName || user.email }}</p>
       </div>
       
       <!-- Enlace único -->
       <div class="card mb-8">
         <h2 class="text-xl font-semibold mb-4">Tu enlace único</h2>
-        <p class="text-gray-600 mb-4">Comparte este enlace para recibir mensajes anónimos:</p>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">Comparte este enlace para recibir mensajes anónimos:</p>
         
         <div class="flex">
-          <div class="flex-grow bg-gray-100 p-3 rounded-l-md font-mono truncate">
+          <div class="flex-grow bg-gray-100 dark:bg-secondary-700 dark:text-gray-200 p-3 rounded-l-md font-mono truncate">
             {{ profileUrl }}
           </div>
           <button 
@@ -87,19 +87,19 @@
       <div class="card">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-xl font-semibold">Mensajes recibidos</h2>
-          <button @click="refreshMessages" class="text-purple-600 hover:text-purple-800">
+          <button @click="refreshMessages" class="text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300">
             <span v-if="messagesLoading">Cargando...</span>
             <span v-else>Actualizar</span>
           </button>
         </div>
         
-        <div v-if="messagesLoading && !messages.length" class="py-8 text-center text-gray-500">
-          <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-600 mx-auto mb-4"></div>
+        <div v-if="messagesLoading && !messages.length" class="py-8 text-center text-gray-500 dark:text-gray-400">
+          <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-600 dark:border-purple-400 mx-auto mb-4"></div>
           <p>Cargando mensajes...</p>
         </div>
         
-        <div v-else-if="!messages.length" class="py-8 text-center text-gray-500">
-          <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div v-else-if="!messages.length" class="py-8 text-center text-gray-500 dark:text-gray-400">
+          <svg class="w-16 h-16 mx-auto mb-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
           </svg>
           <p class="text-lg font-medium">No tienes mensajes aún</p>
@@ -107,18 +107,18 @@
         </div>
         
         <div v-else class="space-y-4">
-          <div v-for="message in messages" :key="message.id" class="p-4 bg-gray-50 rounded-lg">
-            <div class="text-gray-700 whitespace-pre-wrap">{{ message.message }}</div>
+          <div v-for="message in messages" :key="message.id" class="p-4 bg-gray-50 dark:bg-secondary-700 rounded-lg">
+            <div class="text-gray-700 dark:text-gray-200 whitespace-pre-wrap">{{ message.message }}</div>
             <div class="mt-2 flex justify-between items-center">
-              <div class="text-sm text-gray-500">
+              <div class="text-sm text-gray-500 dark:text-gray-400">
                 {{ formatDate(message.createdAt) }}
               </div>
               <button 
                 @click="deleteMessage(message.id)" 
-                class="text-red-500 hover:text-red-700"
+                class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 p-1.5"
                 title="Eliminar mensaje"
               >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                 </svg>
               </button>

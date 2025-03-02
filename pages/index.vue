@@ -2,16 +2,16 @@
   <div class="max-w-4xl mx-auto">
     <div class="text-center mb-12">
       <h1 class="text-4xl font-bold text-secondary-900 mb-4">Bienvenido a GhostPost</h1>
-      <p class="text-xl text-secondary-600">Envía mensajes anónimos a tus amigos de forma sencilla y segura</p>
+      <p class="text-xl text-secondary-600 dark:text-secondary-300">Envía mensajes anónimos a tus amigos de forma sencilla y segura</p>
     </div>
     
     <div class="grid md:grid-cols-1 gap-8">
       <div class="card">
         <h2 class="text-2xl font-semibold mb-4">¿Cómo funciona?</h2>
-        <ol class="space-y-4 text-secondary-700">
+        <ol class="space-y-4 text-secondary-700 dark:text-secondary-300">
           <li class="flex items-start">
             <span class="flex-shrink-0 bg-primary-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2">1</span>
-            <span>Regístrate con tu cuenta de Google o GitHub</span>
+            <span>Regístrate con tu cuenta de Google</span>
           </li>
           <li class="flex items-start">
             <span class="flex-shrink-0 bg-primary-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2">2</span>
