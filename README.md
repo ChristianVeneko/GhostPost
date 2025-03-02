@@ -7,13 +7,13 @@ GhostPost es una aplicación web estilo NGL.link que permite a los usuarios reci
 - **Nuxt 3**: Framework Vue.js con SSR, composables y server routes
 - **Tailwind CSS**: Framework CSS utility-first para diseño responsive
 - **Firebase/Firestore**: Base de datos NoSQL para almacenar mensajes
-- **OAuth**: Autenticación con Google y GitHub
+- **OAuth**: Autenticación con Google
 
 ## Características
 
 - **Página pública de usuario**: Permite a cualquier persona enviar mensajes anónimos a un usuario específico
 - **Dashboard autenticado**: Muestra los mensajes recibidos y permite copiar el enlace único
-- **Autenticación**: Inicio de sesión con Google o GitHub
+- **Autenticación**: Inicio de sesión con Google
 - **Diseño responsive**: Funciona en dispositivos móviles y de escritorio
 
 ## Configuración del proyecto
@@ -79,15 +79,8 @@ service cloud.firestore {
 5. **Habilitar Authentication**:
    - En el menú lateral, haz clic en "Authentication"
    - Haz clic en "Comenzar"
-   - En la pestaña "Sign-in method", habilita los proveedores:
+   - En la pestaña "Sign-in method", habilita el proveedor:
      - Google
-     - GitHub
-   - Para GitHub, necesitarás configurar OAuth en GitHub:
-     - Ve a [GitHub Developer Settings](https://github.com/settings/developers)
-     - Crea una nueva aplicación OAuth
-     - URL de la página principal: `https://tu-proyecto-id.firebaseapp.com`
-     - URL de callback: `https://tu-proyecto-id.firebaseapp.com/__/auth/handler`
-     - Copia el Client ID y Client Secret a Firebase
 
 6. **Obtener credenciales de Firebase**:
    - En el menú lateral, haz clic en "Project settings" (ícono de engranaje)

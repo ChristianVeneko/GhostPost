@@ -3,7 +3,6 @@ import {
   getAuth, 
   signInWithPopup, 
   GoogleAuthProvider, 
-  GithubAuthProvider,
   signOut,
   onAuthStateChanged,
   setPersistence,
@@ -157,26 +156,6 @@ export const useAuth = () => {
     }
   }
 
-  // Sign in with GitHub
-  const signInWithGithub = async () => {
-    try {
-      error.value = null
-      isLoading.value = true
-      const provider = new GithubAuthProvider()
-      const result = await signInWithPopup(auth, provider)
-      
-      // Get ID token
-      await refreshIdToken()
-      
-      return result.user
-    } catch (err) {
-      error.value = err.message
-      throw err
-    } finally {
-      isLoading.value = false
-    }
-  }
-
   // Sign out
   const logout = async () => {
     try {
@@ -196,7 +175,6 @@ export const useAuth = () => {
     isLoading,
     error,
     signInWithGoogle,
-    signInWithGithub,
     logout,
     refreshIdToken
   }

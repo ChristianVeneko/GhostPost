@@ -5,7 +5,7 @@
       <p class="text-xl text-secondary-600">Envía mensajes anónimos a tus amigos de forma sencilla y segura</p>
     </div>
     
-    <div class="grid md:grid-cols-2 gap-8">
+    <div class="grid md:grid-cols-1 gap-8">
       <div class="card">
         <h2 class="text-2xl font-semibold mb-4">¿Cómo funciona?</h2>
         <ol class="space-y-4 text-secondary-700">
@@ -36,25 +36,6 @@
           </NuxtLink>
         </div>
       </div>
-      
-      <MessageForm
-        title="Prueba ahora"
-        label="Envía un mensaje anónimo a nuestro usuario de demostración:"
-        placeholder="Escribe tu mensaje aquí..."
-        submit-text="Enviar mensaje"
-        success-message="¡Mensaje enviado con éxito!"
-        :is-loading="isLoading"
-        :error="error"
-        :success="success"
-        @submit="sendDemoMessage"
-      >
-        <template #before-form>
-          <div class="bg-secondary-100 p-4 rounded-lg mb-4">
-            <p class="text-secondary-700">Envía un mensaje anónimo a nuestro usuario de demostración:</p>
-            <div class="font-mono text-primary-600 mt-2">@ghostpost</div>
-          </div>
-        </template>
-      </MessageForm>
     </div>
     
     <div class="mt-16">
@@ -96,38 +77,5 @@
 </template>
 
 <script setup>
-const message = ref('')
-const isLoading = ref(false)
-const success = ref(false)
-const error = ref(null)
-
-const sendDemoMessage = async (messageText) => {
-  if (!messageText.trim()) return
-  
-  try {
-    isLoading.value = true
-    error.value = null
-    
-    const response = await $fetch('/api/sendMessage', {
-      method: 'POST',
-      body: {
-        to: 'ghostpost',
-        message: messageText
-      }
-    })
-    
-    if (response.success) {
-      success.value = true
-      
-      // Reset success message after 3 seconds
-      setTimeout(() => {
-        success.value = false
-      }, 3000)
-    }
-  } catch (err) {
-    error.value = err.message || 'Error al enviar el mensaje'
-  } finally {
-    isLoading.value = false
-  }
-}
+// No se necesita ninguna lógica de script después de eliminar el formulario de demostración
 </script> 
