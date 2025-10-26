@@ -1,48 +1,319 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* 
+  GhostPost Design System - "Ethereal Waves"
+  A fluid, organic design with soft gradients and glassmorphism
+*/
+
 @layer base {
+  :root {
+    /* Primary Palette - Deep Violet to Electric Cyan */
+    --ghost-violet-50: #f5f3ff;
+    --ghost-violet-100: #ede8ff;
+    --ghost-violet-200: #ddd4ff;
+    --ghost-violet-300: #c4b0ff;
+    --ghost-violet-400: #a582ff;
+    --ghost-violet-500: #8b5cf6;
+    --ghost-violet-600: #7c3aed;
+    --ghost-violet-700: #6d28d9;
+    --ghost-violet-800: #5b21b6;
+    --ghost-violet-900: #4c1d95;
+    
+    /* Accent Cyan */
+    --ghost-cyan-50: #ecfeff;
+    --ghost-cyan-100: #cffafe;
+    --ghost-cyan-200: #a5f3fc;
+    --ghost-cyan-300: #67e8f9;
+    --ghost-cyan-400: #22d3ee;
+    --ghost-cyan-500: #06b6d4;
+    --ghost-cyan-600: #0891b2;
+    --ghost-cyan-700: #0e7490;
+    --ghost-cyan-800: #155e75;
+    --ghost-cyan-900: #164e63;
+    
+    /* Warm Coral */
+    --ghost-coral-50: #fff1f2;
+    --ghost-coral-100: #ffe4e6;
+    --ghost-coral-200: #fecdd3;
+    --ghost-coral-300: #fda4af;
+    --ghost-coral-400: #fb7185;
+    --ghost-coral-500: #f43f5e;
+    --ghost-coral-600: #e11d48;
+    --ghost-coral-700: #be123c;
+    --ghost-coral-800: #9f1239;
+    --ghost-coral-900: #881337;
+    
+    /* Neutrals */
+    --ghost-slate-50: #f8fafc;
+    --ghost-slate-100: #f1f5f9;
+    --ghost-slate-200: #e2e8f0;
+    --ghost-slate-300: #cbd5e1;
+    --ghost-slate-400: #94a3b8;
+    --ghost-slate-500: #64748b;
+    --ghost-slate-600: #475569;
+    --ghost-slate-700: #334155;
+    --ghost-slate-800: #1e293b;
+    --ghost-slate-900: #0f172a;
+  }
+  
   body {
-    @apply bg-secondary-50 text-secondary-900 min-h-screen font-sans dark:bg-secondary-900 dark:text-white;
+    @apply min-h-screen font-sans antialiased;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
+  
+  .dark body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  }
+  
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold text-secondary-900 dark:text-white leading-tight;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    @apply font-bold leading-tight;
+    background: linear-gradient(135deg, var(--ghost-violet-600), var(--ghost-cyan-500));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  a {
-    @apply text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors;
+  
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    background: linear-gradient(135deg, var(--ghost-violet-400), var(--ghost-cyan-400));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
 @layer components {
-  .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 inline-flex items-center justify-center;
-  }
-  .btn-primary {
-    @apply bg-primary-600 text-white hover:bg-primary-700 dark:bg-primary-700 dark:hover:bg-primary-800 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-secondary-900;
-  }
-  .btn-secondary {
-    @apply bg-secondary-200 text-secondary-800 hover:bg-secondary-300 dark:bg-secondary-700 dark:text-secondary-200 dark:hover:bg-secondary-600 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2 dark:focus:ring-offset-secondary-900;
-  }
-  .btn-danger {
-    @apply bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-secondary-900;
-  }
-  .input {
-    @apply w-full px-4 py-2 border border-secondary-300 dark:border-secondary-600 dark:bg-secondary-800 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
-  }
+  /* Glassmorphism Card */
   .card {
-    @apply bg-white dark:bg-secondary-800 rounded-xl shadow-card p-6 hover:shadow-card-hover transition-shadow duration-300;
+    @apply relative overflow-hidden rounded-[2rem] p-8 transition-all duration-500;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+      0 8px 32px rgba(139, 92, 246, 0.1),
+      0 2px 8px rgba(6, 182, 212, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
   }
+  
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      var(--ghost-violet-500) 0%, 
+      var(--ghost-cyan-500) 50%, 
+      var(--ghost-coral-500) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .card:hover::before {
+    opacity: 1;
+  }
+  
+  .dark .card {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    box-shadow: 
+      0 8px 32px rgba(139, 92, 246, 0.2),
+      0 2px 8px rgba(6, 182, 212, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  
+  .card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 
+      0 20px 48px rgba(139, 92, 246, 0.15),
+      0 8px 16px rgba(6, 182, 212, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+  
+  .dark .card:hover {
+    box-shadow: 
+      0 20px 48px rgba(139, 92, 246, 0.3),
+      0 8px 16px rgba(6, 182, 212, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Buttons with Gradient & Animation */
+  .btn {
+    @apply relative px-6 py-3 rounded-full font-semibold transition-all duration-300 inline-flex items-center justify-center gap-2 overflow-hidden;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .btn:hover::before {
+    left: 100%;
+  }
+  
+  .btn-primary {
+    background: linear-gradient(135deg, var(--ghost-violet-600), var(--ghost-cyan-600));
+    color: white;
+    box-shadow: 
+      0 4px 16px rgba(139, 92, 246, 0.4),
+      0 2px 8px rgba(6, 182, 212, 0.3);
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 8px 24px rgba(139, 92, 246, 0.5),
+      0 4px 12px rgba(6, 182, 212, 0.4);
+  }
+  
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+  
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--ghost-violet-200);
+    color: var(--ghost-violet-700);
+  }
+  
+  .dark .btn-secondary {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: var(--ghost-violet-700);
+    color: var(--ghost-violet-300);
+  }
+  
+  .btn-secondary:hover {
+    background: var(--ghost-violet-50);
+    border-color: var(--ghost-violet-400);
+    transform: translateY(-2px);
+  }
+  
+  .dark .btn-secondary:hover {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: var(--ghost-violet-500);
+  }
+  
+  .btn-danger {
+    background: linear-gradient(135deg, var(--ghost-coral-500), var(--ghost-coral-600));
+    color: white;
+    box-shadow: 0 4px 16px rgba(244, 63, 94, 0.4);
+  }
+  
+  .btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(244, 63, 94, 0.5);
+  }
+  
+  /* Input Fields with Glow */
+  .input {
+    @apply w-full px-5 py-3.5 rounded-2xl font-medium transition-all duration-300;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(139, 92, 246, 0.2);
+    color: var(--ghost-slate-800);
+  }
+  
+  .input:focus {
+    outline: none;
+    border-color: var(--ghost-cyan-500);
+    box-shadow: 
+      0 0 0 4px rgba(6, 182, 212, 0.1),
+      0 8px 16px rgba(139, 92, 246, 0.2);
+    transform: translateY(-1px);
+  }
+  
+  .dark .input {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(148, 163, 184, 0.2);
+    color: var(--ghost-slate-100);
+  }
+  
+  .dark .input:focus {
+    border-color: var(--ghost-cyan-400);
+    box-shadow: 
+      0 0 0 4px rgba(34, 211, 238, 0.15),
+      0 8px 16px rgba(139, 92, 246, 0.3);
+  }
+  
+  /* Badges with Gradient */
   .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide;
   }
+  
   .badge-primary {
-    @apply bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200;
+    background: linear-gradient(135deg, var(--ghost-violet-500), var(--ghost-cyan-500));
+    color: white;
   }
+  
   .badge-secondary {
-    @apply bg-secondary-100 text-secondary-800 dark:bg-secondary-700 dark:text-secondary-200;
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--ghost-violet-700);
+    border: 1px solid var(--ghost-violet-200);
   }
+  
+  .dark .badge-secondary {
+    background: rgba(139, 92, 246, 0.2);
+    color: var(--ghost-violet-300);
+    border-color: var(--ghost-violet-700);
+  }
+  
+  .badge-coral {
+    background: linear-gradient(135deg, var(--ghost-coral-400), var(--ghost-coral-600));
+    color: white;
+  }
+  
+  /* Wave Animation */
+  @keyframes wave {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-10px) rotate(2deg); }
+    75% { transform: translateY(10px) rotate(-2deg); }
+  }
+  
+  .wave-animate {
+    animation: wave 3s ease-in-out infinite;
+  }
+  
+  /* Floating Animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  .float-animate {
+    animation: float 4s ease-in-out infinite;
+  }
+  
+  /* Gradient Text */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--ghost-violet-600), var(--ghost-cyan-500));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .dark .gradient-text {
+    background: linear-gradient(135deg, var(--ghost-violet-400), var(--ghost-cyan-400));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Container */
   .container {
-    @apply px-4 sm:px-6 lg:px-8 mx-auto;
+    @apply px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl;
   }
 } 
