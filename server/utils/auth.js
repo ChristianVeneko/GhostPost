@@ -55,7 +55,7 @@ export const getUsernameFromToken = (decodedToken) => {
 /**
  * Extracts and verifies a token from the authorization header
  * @param {Object} event - The Nitro event object
- * @returns {Object} An object containing the decoded token and username
+ * @returns {Object} An object containing the decoded token, username, and uid
  * @throws {Error} If the token is missing, invalid, or expired
  */
 export const getAuthFromEvent = (event) => {
@@ -63,18 +63,26 @@ export const getAuthFromEvent = (event) => {
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     throw new Error('Missing or invalid authorization header');
   }
-  
+
   // Extract token
   const idToken = authHeader.split('Bearer ')[1];
-  
+
   // Verify and decode token
   const decodedToken = verifyAndDecodeToken(idToken);
-  
+
   // Get username
   const username = getUsernameFromToken(decodedToken);
-  
+
+  // Extract userId (Firebase uses 'user_id' or 'sub' in the token)
+  const uid = decodedToken.user_id || decodedToken.sub;
+
+  if (!uid) {
+    throw new Error('No user ID found in token');
+  }
+
   return {
     decodedToken,
-    username
+    username,
+    uid
   };
 }; 

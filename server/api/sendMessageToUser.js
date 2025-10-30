@@ -1,33 +1,33 @@
-import { collection, addDoc, doc, getDoc, updateDoc, increment, serverTimestamp } from 'firebase/firestore'
+import { collection, addDoc, query, where, getDocs, serverTimestamp } from 'firebase/firestore'
 import { initFirebase } from '../utils/firebase'
 
 export default defineEventHandler(async (event) => {
   try {
     // Get request body
     const body = await readBody(event)
-    
-    // Validate request - now expects postId instead of username
-    if (!body.postId || typeof body.postId !== 'string') {
+
+    // Validate request - expects username instead of postId
+    if (!body.username || typeof body.username !== 'string') {
       return createError({
         statusCode: 400,
-        statusMessage: 'Post ID is required and must be a string'
+        statusMessage: 'Username is required and must be a string'
       })
     }
-    
+
     if (!body.message || typeof body.message !== 'string') {
       return createError({
         statusCode: 400,
         statusMessage: 'Message is required and must be a string'
       })
     }
-    
+
     if (body.message.length > 500) {
       return createError({
         statusCode: 400,
         statusMessage: 'Message is too long (max 500 characters)'
       })
     }
-    
+
     // Initialize Firebase
     let firestore
     try {
@@ -40,51 +40,35 @@ export default defineEventHandler(async (event) => {
         statusMessage: 'Failed to initialize Firebase'
       })
     }
-    
-    // Verify post exists and is active
+
+    // Get user by username to verify they exist
     try {
-      const postRef = doc(firestore, 'posts', body.postId)
-      const postSnap = await getDoc(postRef)
-      
-      if (!postSnap.exists()) {
+      const usersRef = collection(firestore, 'users')
+      const q = query(usersRef, where('username', '==', body.username.toLowerCase()))
+      const userSnapshot = await getDocs(q)
+
+      if (userSnapshot.empty) {
         return createError({
           statusCode: 404,
-          statusMessage: 'Post not found'
+          statusMessage: 'User not found'
         })
       }
-      
-      if (!postSnap.data().isActive) {
-        return createError({
-          statusCode: 403,
-          statusMessage: 'This post is not accepting messages'
-        })
-      }
-    } catch (error) {
-      console.error('Error verifying post:', error)
-      return createError({
-        statusCode: 500,
-        statusMessage: 'Failed to verify post'
-      })
-    }
-    
-    // Add message to Firestore
-    try {
+
+      const userDoc = userSnapshot.docs[0]
+      const userId = userDoc.id
+
+      // Add message to Firestore
       const messagesRef = collection(firestore, 'messages')
       const newMessage = {
-        postId: body.postId,
+        userId: userId, // Store userId instead of postId
+        recipientUsername: body.username.toLowerCase(),
         content: body.message.trim(),
         createdAt: serverTimestamp(),
         isRead: false
       }
-      
+
       const docRef = await addDoc(messagesRef, newMessage)
-      
-      // Increment message count on post
-      const postRef = doc(firestore, 'posts', body.postId)
-      await updateDoc(postRef, {
-        messageCount: increment(1)
-      })
-      
+
       return {
         success: true,
         message: 'Message sent successfully',
