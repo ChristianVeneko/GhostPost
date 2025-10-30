@@ -20,6 +20,11 @@ export default defineNuxtConfig({
     }
   },
   runtimeConfig: {
+    // Private keys (server-side only)
+    firebaseProjectId: process.env.FIREBASE_PROJECT_ID,
+    firebaseClientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    firebasePrivateKey: process.env.FIREBASE_PRIVATE_KEY,
+    // Public keys (exposed to client)
     public: {
       firebaseConfig: {
         apiKey: process.env.FIREBASE_API_KEY,

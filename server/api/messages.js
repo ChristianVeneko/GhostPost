@@ -1,6 +1,6 @@
-import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore'
 import { getAuthFromEvent } from '../utils/auth'
 import { initFirebase } from '../utils/firebase'
+import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -56,12 +56,9 @@ export default defineEventHandler(async (event) => {
 
           // Get messages for this post
           const messagesRef = collection(firestore, 'messages')
-          const q = query(
-            messagesRef,
-            where('postId', '==', postId)
-          )
-
+          const q = query(messagesRef, where('postId', '==', postId))
           const querySnapshot = await getDocs(q)
+
           const messages = querySnapshot.docs
             .map(doc => ({
               id: doc.id,
@@ -92,11 +89,9 @@ export default defineEventHandler(async (event) => {
       const allMessages = []
 
       // Get direct messages (userId field)
-      const directMessagesQuery = query(
-        messagesRef,
-        where('userId', '==', userId)
-      )
-      const directSnapshot = await getDocs(directMessagesQuery)
+      const directQuery = query(messagesRef, where('userId', '==', userId))
+      const directSnapshot = await getDocs(directQuery)
+      
       const directMessages = directSnapshot.docs.map(doc => ({
         id: doc.id,
         userId: doc.data().userId,
@@ -109,12 +104,9 @@ export default defineEventHandler(async (event) => {
 
       // Get post-based messages
       const postsRef = collection(firestore, 'posts')
-      const postsQuery = query(
-        postsRef,
-        where('userId', '==', userId)
-      )
-
+      const postsQuery = query(postsRef, where('userId', '==', userId))
       const postsSnapshot = await getDocs(postsQuery)
+      
       const userPostIds = postsSnapshot.docs.map(doc => doc.id)
 
       if (userPostIds.length > 0) {
@@ -124,12 +116,9 @@ export default defineEventHandler(async (event) => {
 
         for (let i = 0; i < userPostIds.length; i += batchSize) {
           const batch = userPostIds.slice(i, i + batchSize)
-          const q = query(
-            messagesRef,
-            where('postId', 'in', batch)
-          )
+          const batchQuery = query(messagesRef, where('postId', 'in', batch))
+          const querySnapshot = await getDocs(batchQuery)
 
-          const querySnapshot = await getDocs(q)
           const batchMessages = querySnapshot.docs.map(doc => ({
             id: doc.id,
             postId: doc.data().postId,
