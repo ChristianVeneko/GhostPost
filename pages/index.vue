@@ -26,8 +26,8 @@
           
           <!-- Subtitle -->
           <p class="text-xl md:text-2xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto">
-            La plataforma más <span class="font-bold text-primary-600 dark:text-primary-400">anónima</span> y 
-            <span class="font-bold text-secondary-600 dark:text-secondary-400"> segura</span> para enviar mensajes secretos a tus amigos ✨
+            Crea posts y recibe <span class="font-bold text-primary-600 dark:text-primary-400">mensajes anónimos</span> de forma 
+            <span class="font-bold text-secondary-600 dark:text-secondary-400">privada y segura</span> ✨
           </p>
           
           <!-- CTA Buttons -->
@@ -82,10 +82,10 @@
               <span class="text-3xl font-black text-white">2</span>
             </div>
             <h3 class="text-xl font-heading font-bold text-slate-800 dark:text-slate-200 mb-3">
-              Obtén tu link
+              Crea un Post
             </h3>
             <p class="text-slate-600 dark:text-slate-400">
-              Recibe tu enlace único para compartir
+              Crea posts con links únicos para compartir
             </p>
           </div>
           
@@ -199,11 +199,11 @@
             </h2>
             
             <p class="text-lg text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
-              Únete a la comunidad de GhostPost y comienza a recibir mensajes anónimos hoy mismo.
+              Crea tus posts privados y recibe mensajes anónimos de forma segura.
             </p>
             
             <NuxtLink to="/dashboard" class="btn btn-primary text-xl px-10 py-5 inline-flex">
-              <span>Crear mi perfil gratis</span>
+              <span>Crear mi primer post gratis</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>

@@ -121,8 +121,11 @@ export const usePosts = () => {
     }
   }
   
-  // Obtener un post por username y key (para página pública)
+  // DEPRECATED: No usar esta función directamente.
+  // Para páginas públicas, usar el endpoint del API: /api/posts/[username]/[key]
+  // Los posts son privados y solo deben accederse vía el link directo del API
   const getPostByKey = async (username, key) => {
+    console.warn('getPostByKey está deprecada. Usa el endpoint del API /api/posts/[username]/[key] en su lugar.')
     loading.value = true
     error.value = null
     

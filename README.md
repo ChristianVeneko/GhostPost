@@ -1,20 +1,23 @@
 # GhostPost
 
-GhostPost es una aplicación web estilo NGL.link que permite a los usuarios recibir mensajes anónimos a través de un enlace único.
+GhostPost es una aplicación web que permite a los usuarios crear posts privados con enlaces únicos para recibir mensajes anónimos.
 
 ## Tecnologías utilizadas
 
 - **Nuxt 3**: Framework Vue.js con SSR, composables y server routes
 - **Tailwind CSS**: Framework CSS utility-first para diseño responsive
-- **Firebase/Firestore**: Base de datos NoSQL para almacenar mensajes
-- **OAuth**: Autenticación con Google
+- **Firebase/Firestore**: Base de datos NoSQL para almacenar posts y mensajes
+- **Firebase Authentication**: Autenticación con Google OAuth
 
 ## Características
 
-- **Página pública de usuario**: Permite a cualquier persona enviar mensajes anónimos a un usuario específico
-- **Dashboard autenticado**: Muestra los mensajes recibidos y permite copiar el enlace único
-- **Autenticación**: Inicio de sesión con Google
-- **Diseño responsive**: Funciona en dispositivos móviles y de escritorio
+- **Posts privados**: Crea múltiples posts, cada uno con su propio link único
+- **Links únicos**: Cada post genera un link privado (username + key aleatoria de 8 caracteres)
+- **Mensajes anónimos**: Permite recibir mensajes anónimos a través del link del post
+- **Dashboard autenticado**: Gestiona tus posts, visualiza mensajes y estadísticas
+- **Control de privacidad**: Activa/desactiva posts para controlar quién puede enviarte mensajes
+- **Diseño responsive**: Funciona perfectamente en dispositivos móviles y de escritorio
+- **Sistema glassmorphism**: Diseño moderno con efectos de cristal y gradientes animados
 
 ## Configuración del proyecto
 
@@ -39,42 +42,52 @@ GhostPost es una aplicación web estilo NGL.link que permite a los usuarios reci
 
 3. **Configurar reglas de seguridad de Firestore**:
    - Una vez creada la base de datos, ve a la pestaña "Reglas"
-   - Actualiza las reglas para permitir operaciones de lectura/escritura:
+   - Copia y pega las reglas del archivo `firestore.rules` que está en la raíz del proyecto
+   - Las reglas principales son:
 
 ```
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Mensajes: cualquiera puede escribir, solo el destinatario puede leer
-    match /messages/{messageId} {
-      allow create: if request.resource.data.to is string &&
-                     request.resource.data.message is string &&
-                     request.resource.data.message.size() <= 500;
-      allow read: if request.auth != null && 
-                   request.auth.token.email_verified && 
-                   resource.data.to == request.auth.token.name.toLowerCase().replace(" ", "") || 
-                   resource.data.to == request.auth.token.email.split('@')[0];
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
     }
     
-    // Usuarios: solo el propio usuario puede leer/escribir sus datos
+    // Posts: lectura pública, escritura solo del dueño
+    match /posts/{postId} {
+      allow read: if true;  // Público para obtener posts por link
+      allow create: if isSignedIn() && 
+                      request.auth.uid == request.resource.data.userId;
+      allow update, delete: if isSignedIn() && 
+                              resource.data.userId == request.auth.uid;
+    }
+    
+    // Mensajes: cualquiera puede crear, solo el dueño del post puede leer
+    match /messages/{messageId} {
+      allow create: if true;  // Mensajes anónimos permitidos
+      allow read, update, delete: if isSignedIn() && 
+                                     ownsPost();
+      
+      function ownsPost() {
+        let postId = resource.data.postId;
+        let post = get(/databases/$(database)/documents/posts/$(postId));
+        return post.data.userId == request.auth.uid;
+      }
+    }
+    
+    // Usuarios: solo el propio usuario puede leer/escribir
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
     }
   }
 }
 ```
 
-4. **Crear índices en Firestore**:
-   - La aplicación requiere un índice compuesto para funcionar correctamente
-   - Si ves un error que dice "The query requires an index", haz clic en el enlace proporcionado
-   - Esto te llevará directamente a la consola de Firebase para crear el índice necesario
-   - Haz clic en "Crear índice" y espera a que se complete (puede tardar unos minutos)
-   - Alternativamente, puedes crear el índice manualmente:
-     - Ve a Firestore > Índices > Índices compuestos
-     - Haz clic en "Añadir índice"
-     - Colección: `messages`
-     - Campos: `to` (Ascending) y `createdAt` (Descending)
-     - Haz clic en "Crear índice"
+4. **Nota sobre índices en Firestore**:
+   - La aplicación NO requiere índices compuestos ya que usamos ordenamiento client-side
+   - Si Firebase te pide crear algún índice, probablemente sea un error de configuración
+   - Revisa que estés usando la versión correcta del código que ordena en el cliente
 
 5. **Habilitar Authentication**:
    - En el menú lateral, haz clic en "Authentication"

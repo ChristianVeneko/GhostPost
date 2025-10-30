@@ -87,37 +87,19 @@ export const useMessages = () => {
   }
 
   // Send a message to a post
-  const sendMessage = async (postIdOrUsername, message) => {
+  const sendMessage = async (postId, message) => {
     try {
       isLoading.value = true
       error.value = null
-
-      // Check if it's a username (string without dashes/numbers pattern)
-      // or a postId (Firestore document ID)
-      const isUsername = typeof postIdOrUsername === 'string' &&
-                        postIdOrUsername.length < 50 &&
-                        !postIdOrUsername.includes('-')
-
-      let response
-      if (isUsername) {
-        // Send to user directly (NGL-like)
-        response = await $fetch('/api/sendMessageToUser', {
-          method: 'POST',
-          body: {
-            username: postIdOrUsername,
-            message
-          }
-        })
-      } else {
-        // Send to specific post (old behavior)
-        response = await $fetch('/api/sendMessage', {
-          method: 'POST',
-          body: {
-            postId: postIdOrUsername,
-            message
-          }
-        })
-      }
+      
+      // Send message to post
+      const response = await $fetch('/api/sendMessage', {
+        method: 'POST',
+        body: {
+          postId,
+          message
+        }
+      })
 
       if (!response.success) {
         throw new Error('Failed to send message')
